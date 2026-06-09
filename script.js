@@ -4,42 +4,41 @@ const mainContainer = document.querySelector('.container');
 const length = document.querySelector('.size-input');
 const resizeBtn = document.querySelector('.resize-btn');
 const clearBtn = document.querySelector('.clear-btn'); 
-let size =0;
-    if (size === 0)
-    {
-        size = 16;
+        
+createGrid(16);
 
-    for (let i = 0; i<size; i++)
+    resizeBtn.addEventListener('click', ()=>{
+        createGrid(fetchSize(length));
+    })
+    
+
+    function createGrid (gridLength)
     {
-        for(let j = 0; j<size; j++)
+        cleanBoard();
+        for (let i = 0; i<gridLength; i++)
+    {
+        for(let j = 0; j<gridLength; j++)
         {
         const gridElement = document.createElement('div');
         gridElement.style.backgroundColor = 'pink';
-        gridElement.style.flexBasis = `${100/size}%`;
+        gridElement.style.boxSizing = 'border-box';
+        gridElement.style.flexBasis = `${100/gridLength}%`;
         gridElement.style.border = '1px solid green';
         mainContainer.appendChild(gridElement);
 
         }
     }
+}
 
-    } 
+function cleanBoard()
+{
+    mainContainer.innerHTML = '';
+}
 
+function fetchSize(ele)
+    {
+    const inputSize = ele.value;
+    ele.value ="";
+    return inputSize;
+};
 
-
-
-// function gridSizeFinder(length)
-// {
-//     const gridSize = length.addEventListener('change', (item)=>
-//     {
-//         size = parseInt(item.target.value);
-//         if (typeof size === "number" &&  size >= 1 )
-//         {
-//             return size*size;
-//         }
-//         else
-//         {
-//             alert("please enter a number greater than 16");
-//         }
-//     }
-//     return gridSize;
-// }
