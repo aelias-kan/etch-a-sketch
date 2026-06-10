@@ -8,6 +8,8 @@
 
     let isDrawing = false;
     let isEraserActive =false;
+    let currentMode = 'black';
+
         resizeBtn.addEventListener('click', ()=>{
             const gridSize = fetchSize(length);
             if(isNaN(gridSize))
@@ -43,7 +45,8 @@
             gridElement.style.backgroundColor = 'white';
             gridElement.style.boxSizing = 'border-box';
             gridElement.style.flexBasis = `${100/gridLength}%`;
-            gridElement.style.border = '1px solid rgba(0, 128, 0, 0.3)';
+            gridElement.style.border = '1px solid rgba(0, 128, 0, 0.1)';
+            gridElement.dataset.opacity = "0.2";
             mainContainer.appendChild(gridElement);
 
             }
@@ -69,7 +72,18 @@ function paintGrid(item) {
     item.preventDefault();
     if (item.target === mainContainer) return;
     if (item.buttons === 1) {
+        if(currentMode==='color')
+        {
+        item.target.style.opacity = 1;
+        item.target.dataset.opacity =1;
+        }else
+        {
         item.target.style.cursor = "pointer";
+        let currentOpacity = parseFloat(item.target.dataset.opacity);
+        currentOpacity+=0.2;
+        item.target.dataset.opacity =currentOpacity;
+        item.target.style.opacity = currentOpacity;
+        }
         if (!isEraserActive) {
             item.target.style.backgroundColor = selectedColor;
         } else {
@@ -105,6 +119,7 @@ const colorPicker = document.querySelector('.color-picker');
 let selectedColor = '#000000';
 
 colorPicker.addEventListener('input', (e) => {
+    currentMode ='color';
     selectedColor = e.target.value;
     colorBtn.style.backgroundColor = selectedColor;
     if (selectedColor === '#ffffff' || selectedColor.toLowerCase() === '#fff') {
@@ -113,3 +128,13 @@ colorPicker.addEventListener('input', (e) => {
         colorBtn.style.color = 'white';
     }
 });
+
+const opacBtn = document.querySelector('.opac-btn');
+
+opacBtn.addEventListener('click', ()=>
+{
+    currentMode = 'black';
+    selectedColor ="black";
+    colorBtn.style.backgroundColor = 'black';
+
+})
