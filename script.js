@@ -69,9 +69,11 @@
     };
 
 function paintGrid(item) {
+    if (!isDrawing) return;
     item.preventDefault();
+
     if (item.target === mainContainer) return;
-    if (item.buttons === 1) {
+    
         if(currentMode==='color')
         {
         item.target.style.opacity = 1;
@@ -84,24 +86,43 @@ function paintGrid(item) {
         item.target.dataset.opacity =currentOpacity;
         item.target.style.opacity = currentOpacity;
         }
-        if (!isEraserActive) {
+
+
+        if (isEraserActive) {
+            item.target.style.backgroundColor = 'white';
+        } else if (currentMode==='random'){
+
+        let red = Math.floor(Math.random()*256);
+        let green = Math.floor(Math.random()*256);
+        let blue = Math.floor(Math.random()*256);
+        let color = `rgb(${red}, ${green}, ${blue})`;
+        item.target.style.backgroundColor = color;
+        selectedColor =color;
+
+        }            
+        else{
             item.target.style.backgroundColor = selectedColor;
-        } else {
-            item.target.style.backgroundColor = "white";
         }
-    }
+    
 }
 
-mainContainer.addEventListener('mouseover', paintGrid);
-mainContainer.addEventListener('mousedown', paintGrid);
-
-
+mainContainer.addEventListener('mousedown', (e) => {
+    e.preventDefault();
+    isDrawing = true;
+    paintGrid(e);
+});
 
     clearBtn.addEventListener('click',()=>
         {
             if (currentGridSize!="")
                 createGrid(currentGridSize)
         });
+
+mainContainer.addEventListener('mouseover', paintGrid); 
+
+window.addEventListener('mouseup', () => {
+    isDrawing = false;
+});
 
 // erase functionality
 
@@ -135,6 +156,15 @@ opacBtn.addEventListener('click', ()=>
 {
     currentMode = 'black';
     selectedColor ="black";
-    colorBtn.style.backgroundColor = 'black';
+    colorBtn.style.backgroundColor = 'rgb(51, 47, 47)';
 
+})
+
+
+const randomColor = document.querySelector('.randomClr-btn');
+
+randomColor.addEventListener('click', ()=>
+{
+    currentMode = 'random';
+    isEraserActive = false;
 })
