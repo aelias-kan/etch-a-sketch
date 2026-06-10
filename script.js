@@ -7,7 +7,7 @@
     createGrid(currentGridSize);
 
     let isDrawing = false;
-
+    let isEraserActive =false;
         resizeBtn.addEventListener('click', ()=>{
             const gridSize = fetchSize(length);
             if(isNaN(gridSize))
@@ -43,7 +43,7 @@
             gridElement.style.backgroundColor = 'white';
             gridElement.style.boxSizing = 'border-box';
             gridElement.style.flexBasis = `${100/gridLength}%`;
-            gridElement.style.border = '1px solid green';
+            gridElement.style.border = '1px solid rgba(0, 128, 0, 0.3)';
             mainContainer.appendChild(gridElement);
 
             }
@@ -65,21 +65,39 @@
         return inputSize;
     };
 
-    window.addEventListener('mousedown', ()=> isDrawing = true);
-    window.addEventListener('mouseup', ()=> isDrawing = false);
-
-    mainContainer.addEventListener('mouseover', (item)=>
-    {
-        if (isDrawing)
-        {
+function paintGrid(item) {
+    item.preventDefault();
+    if (item.target === mainContainer) return;
+    if (item.buttons === 1) {
         item.target.style.cursor = "pointer";
-        item.target.style.backgroundColor = "black";
+        if (!isEraserActive) {
+            item.target.style.backgroundColor = "black";
+        } else {
+            item.target.style.backgroundColor = "white";
         }
+    }
+}
 
-    })
+mainContainer.addEventListener('mouseover', paintGrid);
+mainContainer.addEventListener('mousedown', paintGrid);
+
+
 
     clearBtn.addEventListener('click',()=>
         {
             if (currentGridSize!="")
                 createGrid(currentGridSize)
         });
+
+// erase functionality
+
+const erase = document.querySelector('.eraser-btn');
+
+erase.addEventListener('click', ()=>
+{   
+    isEraserActive = !isEraserActive; 
+    erase.classList.toggle('eraserClicked', isEraserActive);
+})
+
+
+

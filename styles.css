@@ -25,9 +25,9 @@ body{
     border: 1px solid rgb(92, 134, 134);
     margin: 5px 0;
     border-radius: 5px;
-    padding: 10px;
+    padding: 0 10px;
 }
-button{
+.btn{
     /* width: 220px; */
     height: 25px;
     width: 75px;
@@ -36,9 +36,11 @@ button{
     background-color: rgb(51, 47, 47);
     color: white;
     border-radius: 5px;
+    border: none;
     /* padding: 10px; */
 
 }
+
 .container
 {   
     box-sizing: border-box;
@@ -51,3 +53,7 @@ button{
     flex-wrap: wrap;
     }
 
+.eraserClicked{
+    background-color: white;
+    color:black;
+}
