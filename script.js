@@ -71,7 +71,7 @@ function paintGrid(item) {
     if (item.buttons === 1) {
         item.target.style.cursor = "pointer";
         if (!isEraserActive) {
-            item.target.style.backgroundColor = "black";
+            item.target.style.backgroundColor = selectedColor;
         } else {
             item.target.style.backgroundColor = "white";
         }
@@ -99,5 +99,17 @@ erase.addEventListener('click', ()=>
     erase.classList.toggle('eraserClicked', isEraserActive);
 })
 
+const colorBtn = document.querySelector('.color-btn');
+const colorPicker = document.querySelector('.color-picker');
 
+let selectedColor = '#000000';
 
+colorPicker.addEventListener('input', (e) => {
+    selectedColor = e.target.value;
+    colorBtn.style.backgroundColor = selectedColor;
+    if (selectedColor === '#ffffff' || selectedColor.toLowerCase() === '#fff') {
+        colorBtn.style.color = 'black';
+    } else {
+        colorBtn.style.color = 'white';
+    }
+});
